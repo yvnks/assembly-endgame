@@ -21,7 +21,7 @@ header > .title {
 }
 
 header > .info {
-    max-width: 400px;
+    max-width: 350px;
     text-align: center;
     color: #8E8E8E;
 }
@@ -43,4 +43,19 @@ section.game-status > h2 {
 }
 section.game-status > p {
     margin: 5px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 350px;
+    gap: 4px;
+}
+
+.chips-lang {
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.85rem;
 }
