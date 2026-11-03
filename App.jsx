@@ -6,6 +6,11 @@ export default function Hangman() {
                 <p className="info">Guess the word in under 8 attemps to 
                 keep the programming world safe from Assembly!
                 </p>
+
+                <section className="game-status">
+                    <h2>You win!</h2>
+                    <p>Well done! 🎉</p>
+                </section>
             </header>
         </main>
     );
