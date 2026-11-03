@@ -1,6 +1,14 @@
 import { languages } from "./language";
+import { useState } from "react";
 
 export default function Hangman() {
+  const [currentWord, setCurrentWord] = useState("react");
+
+  const wordStr = () =>
+    currentWord
+      .split("")
+      .map((letter) => <span className="letter">{letter.toUpperCase()}</span>);
+
   return (
     <main>
       <header>
@@ -30,6 +38,8 @@ export default function Hangman() {
           ))}
         </div>
       </header>
+
+      <section className="word-container">{wordStr()}</section>
     </main>
   );
 }
