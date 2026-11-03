@@ -5,8 +5,10 @@ export default function AssemblyEngame() {
   const [currentWord, setCurrentWord] = useState("react");
   const [guess, setGuess] = useState([]);
 
-  function getLetterFromKeys(e) {
-    setGuess((prevLetter) => [...prevLetter, e.target.innerHTML]);
+  function getLetterFromKeys(letter) {
+    setGuess((prevLetter) =>
+      prevLetter.includes(letter) ? prevLetter : [...prevLetter, letter],
+    );
   }
   console.log(guess);
 
@@ -21,7 +23,7 @@ export default function AssemblyEngame() {
 
   const alphabetKeyboard = () =>
     alphabet.split("").map((letter) => (
-      <button onClick={getLetterFromKeys} key={letter}>
+      <button onClick={() => getLetterFromKeys(letter)} key={letter}>
         {letter.toUpperCase()}
       </button>
     ));
