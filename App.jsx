@@ -3,12 +3,19 @@ import { useState } from "react";
 import clsx from "clsx";
 
 export default function AssemblyEngame() {
+  // State values
   const [currentWord, setCurrentWord] = useState("react");
-  const [guess, setGuess] = useState([]);
+  const [guessedLetter, setGuessedLetter] = useState([]);
+
+  // Derived values.
+  const wrongGuessCount = guessedLetter.filter(
+    (letter) => !currentWord.includes(letter),
+  ).length;
+  console.log(wrongGuessCount);
 
   // Adds letter to the guess state.
   function getLetterFromKeys(letter) {
-    setGuess((prevLetter) =>
+    setGuessedLetter((prevLetter) =>
       prevLetter.includes(letter) ? prevLetter : [...prevLetter, letter],
     );
   }
@@ -17,7 +24,7 @@ export default function AssemblyEngame() {
   const wordStr = () =>
     currentWord.split("").map((letter, idx) => (
       <span key={idx} className="letter">
-        {letter.toUpperCase()}
+        {guessedLetter.includes(letter) ? letter.toUpperCase() : " "}
       </span>
     ));
 
@@ -25,20 +32,42 @@ export default function AssemblyEngame() {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const alphabetKeyboard = () =>
     alphabet.split("").map((letter) => {
-      const isGuessed = guess.includes(letter);
+      const isGuessed = guessedLetter.includes(letter);
       const isCorrect = isGuessed && currentWord.includes(letter);
       const isWrong = isGuessed && !currentWord.includes(letter);
 
       const className = clsx({ correct: isCorrect, wrong: isWrong });
 
       return (
-        <button className={className} 
-        onClick={() => getLetterFromKeys(letter)} 
-        key={letter}>
+        <button
+          className={className}
+          onClick={() => getLetterFromKeys(letter)}
+          key={letter}
+        >
           {letter.toUpperCase()}
         </button>
       );
     });
+
+  const languageElements = languages.map((lang, idx) => {
+    const isLanguageLost = idx < wrongGuessCount;
+    console.log(`index: ${idx}, wrongWC: ${wrongGuessCount}`);
+
+    const className = clsx("chip", isLanguageLost && "lost");
+
+    return (
+      <span
+        className={className}
+        key={lang.name}
+        style={{
+          backgroundColor: lang.backgroundColor,
+          color: lang.color,
+        }}
+      >
+        {lang.name}
+      </span>
+    );
+  });
 
   return (
     <main>
@@ -55,20 +84,7 @@ export default function AssemblyEngame() {
         <p>Well done! 🎉</p>
       </section>
 
-      <div className="chips">
-        {languages.map((lang) => (
-          <span
-            className="chips-lang"
-            key={lang.name}
-            style={{
-              backgroundColor: lang.backgroundColor,
-              color: lang.color,
-            }}
-          >
-            {lang.name}
-          </span>
-        ))}
-      </div>
+      <div className="language-chips">{languageElements}</div>
 
       <section className="word-container">{wordStr()}</section>
       <section className="keyboard">{alphabetKeyboard()}</section>
