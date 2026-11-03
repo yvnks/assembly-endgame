@@ -1,8 +1,14 @@
 import { languages } from "./language";
 import { useState } from "react";
 
-export default function Hangman() {
+export default function AssemblyEngame() {
   const [currentWord, setCurrentWord] = useState("react");
+  const [guess, setGuess] = useState([]);
+
+  function getLetterFromKeys(e) {
+    setGuess((prevLetter) => [...prevLetter, e.target.innerHTML]);
+  }
+  console.log(guess);
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
@@ -14,9 +20,11 @@ export default function Hangman() {
     ));
 
   const alphabetKeyboard = () =>
-    alphabet
-      .split("")
-      .map((letter) => <button key={letter}>{letter.toUpperCase()}</button>);
+    alphabet.split("").map((letter) => (
+      <button onClick={getLetterFromKeys} key={letter}>
+        {letter.toUpperCase()}
+      </button>
+    ));
 
   return (
     <main>
@@ -28,28 +36,31 @@ export default function Hangman() {
         </p>
       </header>
 
-    <section className="game-status">
+      <section className="game-status">
         <h2>You win!</h2>
         <p>Well done! 🎉</p>
-    </section>
+      </section>
 
-    <div className="chips">
+      <div className="chips">
         {languages.map((lang) => (
-        <span
+          <span
             className="chips-lang"
             key={lang.name}
             style={{
-            backgroundColor: lang.backgroundColor,
-            color: lang.color,
+              backgroundColor: lang.backgroundColor,
+              color: lang.color,
             }}
-        >
+          >
             {lang.name}
-        </span>
+          </span>
         ))}
-    </div>
+      </div>
 
       <section className="word-container">{wordStr()}</section>
       <section className="keyboard">{alphabetKeyboard()}</section>
+      <section className="new-game">
+        <button>New Game</button>
+      </section>
     </main>
   );
 }
