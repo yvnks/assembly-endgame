@@ -13,17 +13,20 @@ body {
   justify-content: center;
 }
 
-header > .title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 500;
-  color: #f9f4da;
+header {
+    text-align: center;
 }
 
-header > .info {
+header > p {
   max-width: 350px;
-  text-align: center;
   color: #8e8e8e;
+  font-size: 0.875rem;
+}
+
+header > h1 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #f9f4da;
 }
 
 section.game-status {
@@ -61,14 +64,32 @@ section.game-status > p {
 }
 
 .word-container {
-    text-align: center;
-    margin-block: 30px;
+  text-align: center;
+  margin-block: 30px;
 }
 
 .letter {
-    background-color: #323232;
-    color: #F9F4DA;
-    padding: 12px;
-    border-bottom: 1px solid #F9F4DA;
-    margin-right: 2px;
+  background-color: #323232;
+  color: #f9f4da;
+  padding: 12px;
+  border-bottom: 1px solid #f9f4da;
+  margin-right: 2px;
+}
+
+section.keyboard {
+  max-width: 350px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyboard > button {
+  cursor: pointer;
+  background-color: #fcba29;
+  color: #1e1e1e;
+  border: 1px solid #1e1e1e;
+  border-radius: 4px;
+  width: 35px;
+  height: 35px;
 }
