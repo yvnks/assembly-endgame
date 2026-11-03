@@ -1,19 +1,19 @@
 import { languages } from "./language";
 import { useState } from "react";
+import clsx from "clsx";
 
 export default function AssemblyEngame() {
   const [currentWord, setCurrentWord] = useState("react");
   const [guess, setGuess] = useState([]);
 
+  // Adds letter to the guess state.
   function getLetterFromKeys(letter) {
     setGuess((prevLetter) =>
       prevLetter.includes(letter) ? prevLetter : [...prevLetter, letter],
     );
   }
-  console.log(guess);
 
-  const alphabet = "abcdefghijklmnopqrstuvwxyz";
-
+  // Displays the current word on the screen.
   const wordStr = () =>
     currentWord.split("").map((letter, idx) => (
       <span key={idx} className="letter">
@@ -21,12 +21,24 @@ export default function AssemblyEngame() {
       </span>
     ));
 
+  // Make the on screen keyboard.
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const alphabetKeyboard = () =>
-    alphabet.split("").map((letter) => (
-      <button onClick={() => getLetterFromKeys(letter)} key={letter}>
-        {letter.toUpperCase()}
-      </button>
-    ));
+    alphabet.split("").map((letter) => {
+      const isGuessed = guess.includes(letter);
+      const isCorrect = isGuessed && currentWord.includes(letter);
+      const isWrong = isGuessed && !currentWord.includes(letter);
+
+      const className = clsx({ correct: isCorrect, wrong: isWrong });
+
+      return (
+        <button className={className} 
+        onClick={() => getLetterFromKeys(letter)} 
+        key={letter}>
+          {letter.toUpperCase()}
+        </button>
+      );
+    });
 
   return (
     <main>
