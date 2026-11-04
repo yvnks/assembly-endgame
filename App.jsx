@@ -25,13 +25,13 @@ export default function AssemblyEngame() {
   const isGameWon = currentWord
     .split("")
     .every((letter) => guessedLetter.includes(letter));
-  const isGameLost = wrongGuessCount >= languages.length - 1;
+  const numGuessLeft = languages - 1;
+  const isGameLost = wrongGuessCount >= numGuessLeft;
   const isGameOver = isGameWon || isGameLost;
 
   const lastGuessedLetter = guessedLetter.at(-1);
   const isLastGuessedIncorrect =
     lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
-  console.log(isLastGuessedIncorrect);
 
   // Adds letter to the guess state.
   function getLetterFromKeys(letter) {
@@ -62,6 +62,8 @@ export default function AssemblyEngame() {
         <button
           disabled={isGameOver}
           className={className}
+          aria-disabled={guessedLetter.includes(letter)}
+          aria-label={`Letter ${letter}`}
           onClick={() => getLetterFromKeys(letter)}
           key={letter}
         >
@@ -134,9 +136,30 @@ export default function AssemblyEngame() {
         </p>
       </header>
 
-      <section className={gameStatus}>{renderGameStatus()}</section>
+      <section aria-live="polite" role="status" className={gameStatus}>
+        {renderGameStatus()}
+      </section>
 
       <div className="language-chips">{languageElements}</div>
+
+      {/* Combines visually-hidden aria-live region for status updates.  */}
+      <section role="status" aria-live="polite" className="sr-only">
+        <p role="status" aria-live="polite" className="sr-only">
+          {currentWord.includes(lastGuessedLetter)
+            ? `Correct! The letter ${lastGuessedLetter} is in the word.`
+            : `Sorry, the letter ${lastGuessedLetter} is not in the word`}
+          You have {numGuessLeft} of Guesses left.
+        </p>
+        <p>
+          Current word:{" "}
+          {currentWord
+            .split("")
+            .map((letter) =>
+              guessedLetter.includes(letter) ? letter + "." : "blank",
+            )
+            .join(" ")}
+        </p>
+      </section>
 
       <section className="word-container">{wordStr()}</section>
       <section className="keyboard">{alphabetKeyboard()}</section>
