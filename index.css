@@ -38,12 +38,19 @@ section.game-status {
   color: #f9f4da;
 }
 
-section.game-status > h1 {
+section.game-status > h2 {
   font-size: 1.25rem;
   margin: 5px;
 }
 section.game-status > p {
   margin: 5px;
+}
+
+section.game-status > p.farewell-message {
+  background-color: #7A5EA7;
+    border: 1px dashed #323232;
+    font-style: italic;
+    font-weight: 400;
 }
 
 section.game-status.won {
@@ -52,6 +59,11 @@ section.game-status.won {
 
 section.game-status.loss {
   background-color: #ba2a2a;
+}
+
+section.game-status.farewell {
+    background-color: #7A5EA7;
+    border: 1px dashed #323232;
 }
 
 .language-chips {
