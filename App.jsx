@@ -3,6 +3,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import { getFarewellText } from "./utils";
 import { getRandomWord } from "./utils";
+import Confetti from "react-confetti";
 
 /**
  * Backlog:
@@ -26,7 +27,7 @@ export default function AssemblyEngame() {
   const isGameWon = currentWord
     .split("")
     .every((letter) => guessedLetter.includes(letter));
-  const numGuessLeft = languages - 1;
+  const numGuessLeft = languages.length - 1;
   const isGameLost = wrongGuessCount >= numGuessLeft;
   const isGameOver = isGameWon || isGameLost;
 
@@ -42,12 +43,17 @@ export default function AssemblyEngame() {
   }
 
   // Displays the current word on the screen.
-  const wordStr = () =>
-    currentWord.split("").map((letter, idx) => (
-      <span key={idx} className="letter">
-        {guessedLetter.includes(letter) ? letter.toUpperCase() : " "}
+  const letterElement = currentWord.split("").map((letter, idx) => {
+    const shouldRevealLetter = isGameLost || guessedLetter.includes(letter);
+    const letterClassname =
+      isGameLost && !guessedLetter.includes(letter) && "missed-class";
+
+    return (
+      <span key={idx} className={`letter ${letterClassname}`}>
+        {shouldRevealLetter ? letter.toUpperCase() : " "}
       </span>
-    ));
+    );
+  });
 
   // Make the on screen keyboard.
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -134,6 +140,7 @@ export default function AssemblyEngame() {
 
   return (
     <main>
+      {isGameOver && isGameWon && <Confetti />}
       <header>
         <h1>Assembly: Endgame</h1>
         <p>
@@ -167,7 +174,7 @@ export default function AssemblyEngame() {
         </p>
       </section>
 
-      <section className="word-container">{wordStr()}</section>
+      <section className="word-container">{letterElement}</section>
       <section className="keyboard">{alphabetKeyboard()}</section>
       <section className="new-game">
         {isGameOver && <button onClick={newGame}>New Game</button>}

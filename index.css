@@ -113,6 +113,10 @@ span.letter {
   width: 100px;
 }
 
+span.letter.missed-class {
+  color: #ba2a2a;
+}
+
 section.keyboard {
   max-width: 350px;
   display: flex;
