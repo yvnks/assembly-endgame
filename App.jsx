@@ -5,16 +5,6 @@ import { getFarewellText } from "./utils";
 import { getRandomWord } from "./utils";
 import Confetti from "react-confetti";
 
-/**
- * Backlog:
- *
- * - Farewell messages in status section
- * - Fix a11y issues
- * - Make the new game button work
- * - Choose a random word from a list of words
- * - Confetti drop when the user wins
- */
-
 export default function AssemblyEngame() {
   // State values
   const [currentWord, setCurrentWord] = useState(() => getRandomWord());
