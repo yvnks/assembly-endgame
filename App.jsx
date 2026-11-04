@@ -11,7 +11,14 @@ export default function AssemblyEngame() {
   const wrongGuessCount = guessedLetter.filter(
     (letter) => !currentWord.includes(letter),
   ).length;
-  console.log(wrongGuessCount);
+
+  const isGameWon = currentWord
+    .split("")
+    .every((letter) => guessedLetter.includes(letter));
+
+  const isGameLost = wrongGuessCount >= languages.length - 1;
+
+  const isGameOver = isGameWon || isGameLost;
 
   // Adds letter to the guess state.
   function getLetterFromKeys(letter) {
@@ -51,7 +58,6 @@ export default function AssemblyEngame() {
 
   const languageElements = languages.map((lang, idx) => {
     const isLanguageLost = idx < wrongGuessCount;
-    console.log(`index: ${idx}, wrongWC: ${wrongGuessCount}`);
 
     const className = clsx("chip", isLanguageLost && "lost");
 
@@ -69,6 +75,11 @@ export default function AssemblyEngame() {
     );
   });
 
+  const gameStatus = clsx("game-status", {
+    won: isGameWon,
+    loss: isGameLost,
+  });
+
   return (
     <main>
       <header>
@@ -79,9 +90,20 @@ export default function AssemblyEngame() {
         </p>
       </header>
 
-      <section className="game-status">
-        <h2>You win!</h2>
-        <p>Well done! 🎉</p>
+      <section className={gameStatus}>
+        {isGameOver ? (
+          isGameWon ? (
+            <>
+              <h1>You win</h1>
+              <p>Well done! 🎉</p>
+            </>
+          ) : (
+            <>
+              <h1>Game over!</h1>
+              <p>You lose! Better start learning Assembly 😭</p>
+            </>
+          )
+        ) : null}
       </section>
 
       <div className="language-chips">{languageElements}</div>
@@ -89,7 +111,7 @@ export default function AssemblyEngame() {
       <section className="word-container">{wordStr()}</section>
       <section className="keyboard">{alphabetKeyboard()}</section>
       <section className="new-game">
-        <button>New Game</button>
+        {isGameOver && <button>New Game</button>}
       </section>
     </main>
   );
