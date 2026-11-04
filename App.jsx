@@ -60,6 +60,7 @@ export default function AssemblyEngame() {
 
       return (
         <button
+          disabled={isGameOver}
           className={className}
           onClick={() => getLetterFromKeys(letter)}
           key={letter}

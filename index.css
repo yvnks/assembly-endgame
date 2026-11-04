@@ -138,6 +138,11 @@ section.keyboard {
 .keyboard.wrong {
   background-color: #ec5d49;
 }
+
+section.keyboard button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
 .new-game {
   display: flex;
   justify-content: center;
