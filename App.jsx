@@ -2,6 +2,7 @@ import { languages } from "./language";
 import { useState } from "react";
 import clsx from "clsx";
 import { getFarewellText } from "./utils";
+import { getRandomWord } from "./utils";
 
 /**
  * Backlog:
@@ -15,7 +16,7 @@ import { getFarewellText } from "./utils";
 
 export default function AssemblyEngame() {
   // State values
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [guessedLetter, setGuessedLetter] = useState([]);
 
   // Derived values.
@@ -126,6 +127,11 @@ export default function AssemblyEngame() {
     farewell: !isGameOver && isLastGuessedIncorrect,
   });
 
+  function newGame() {
+    setCurrentWord(getRandomWord());
+    setGuessedLetter([]);
+  }
+
   return (
     <main>
       <header>
@@ -164,7 +170,7 @@ export default function AssemblyEngame() {
       <section className="word-container">{wordStr()}</section>
       <section className="keyboard">{alphabetKeyboard()}</section>
       <section className="new-game">
-        {isGameOver && <button>New Game</button>}
+        {isGameOver && <button onClick={newGame}>New Game</button>}
       </section>
     </main>
   );
